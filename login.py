@@ -7,7 +7,7 @@ class LoginPage(tk.Frame):
     def __init__(self, parent, database, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
-        self.database = database
+        self.users_collection = database["users"]
         login_frame = tk.Frame(self.parent, bg=FRAME_BG_COLOR, padx=20, pady=10)
         login_frame.pack(anchor="center", padx=20, pady=20, expand=True)
         error_var = tk.StringVar(login_frame, "")
@@ -27,19 +27,17 @@ class LoginPage(tk.Frame):
         tk.Button(login_frame, text="Login", font=(17), padx=10, pady=0, relief="groove", borderwidth=2, fg='white', bg=INNER_BG_COLOR,
                   activebackground='white', activeforeground=INNER_BG_COLOR,
                   command=lambda: self.login(username_entry.get(), password_entry.get(), error_var)).pack()
-        tk.Label(login_frame, textvariable=error_var, bg=FRAME_BG_COLOR).pack()
+        tk.Label(login_frame, textvariable=error_var, bg=FRAME_BG_COLOR, fg='red').pack()
 
     def login(self, username, password, stringvar):
         if username!="" and password!="":
-            project = self.database.find_one({"users":{"$elemMatch":{"username":username, "password":password}}})
+            project = self.users_collection.find_one({"username":username, "password":password})
             if project:
                 stringvar.set("")
-                print('yay')
+                self.load_menu()
             else:
                 stringvar.set("error login")
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    LoginPage(root, None)
-    root.after(10000, lambda: root.destroy())
-    root.mainloop()
+    def load_menu(self):
+        self.parent.clear_frame()
+        self.parent.menu()

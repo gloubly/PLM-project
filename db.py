@@ -74,6 +74,7 @@ products = [
     { "name": "Shamp6oo", "category": "Personal Care", "launching_date": "2022-05-01","conservation_date": "2025-05-01","milk_type_used": "Non-perishable","ingredients": "Aqua, Sodium Laureth Sulfate","properties": "Cleans hair"    },
 ]
 
+client["db_plm"]["products"].insert_many(products)
 
 req = client["db_plm"]["users"].find_one({"username":"admin", "password":"root"})
 

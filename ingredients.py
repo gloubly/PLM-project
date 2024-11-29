@@ -1,9 +1,10 @@
 import tkinter as tk
 
 class IngredientsPage(tk.Frame):
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent, mongo_client, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
+        self.mongo_client= mongo_client
 
         title_frame = tk.Frame(self.parent, bg="#4CAF50", relief=tk.RAISED, bd=2)
         title_frame.pack(side='top', fill='x')
