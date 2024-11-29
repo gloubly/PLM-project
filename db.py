@@ -1,5 +1,6 @@
 import pymongo
 
+#setup the db
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 if "db_plm" not in client.list_database_names():
     client["db_plm"]
