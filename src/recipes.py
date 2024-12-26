@@ -1,5 +1,7 @@
 import tkinter as tk
 
+data = []
+
 class RecipesPage(tk.Frame):
     def __init__(self, parent, database, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)

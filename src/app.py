@@ -7,7 +7,7 @@ from recipes import RecipesPage
 
 # https://stackoverflow.com/questions/17466561/what-is-the-best-way-to-structure-a-tkinter-application
 class App(tk.Tk):
-    def __init__(self, database, timeout=None, *args, **kwargs):
+    def __init__(self, database, timeout=None, skip=False, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         self.database = database
         self.wm_title("App")
@@ -34,7 +34,7 @@ class App(tk.Tk):
 
         self.content_frame = tk.Frame(self)
         self.content_frame.pack(fill='both', expand=True)
-    
+
     def load_page(self, page_name):
         if self.current_page == page_name:
             return  # Avoid reloading the same page
@@ -65,6 +65,7 @@ class App(tk.Tk):
         # password
         tk.Label(login_frame, text="Password", bg=INNER_BG_COLOR, fg='white', font=(20)).pack(pady=(20,0), fill="both")
         password_entry = tk.Entry(login_frame)
+        password_entry.bind("<Return>", lambda event: self.login(username_entry.get(), password_entry.get(), error_var))
         password_entry.pack(pady=(0, 20))
 
         # buttons
@@ -88,5 +89,5 @@ class App(tk.Tk):
 mongo_client = pymongo.MongoClient("mongodb://localhost:27017/")
 database = mongo_client["db_plm"]
 
-app = App(database, 20000)
+app = App(database, timeout=20000)
 app.mainloop()

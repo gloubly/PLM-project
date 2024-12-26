@@ -1,0 +1,57 @@
+Products:
+{
+    "product_id": int,
+    "name": "",
+    "category": [],
+    "lauching_date": "2024-12-24",
+    "ingredients": [
+        {
+            "name": "",
+            "quantity": int,
+            "unit": ""
+        },
+    ],
+    "properties": [],
+    "recipe": "",
+    "quantity_produced": float,
+    "unit": "",
+    "price": float,
+    "version": "1.0"
+}
+
+ProductsHistory:
+{
+    "fk_product_id": int,
+    "name": "",
+    "category": [],
+    "lauching_date": "2024-12-24",
+    "ingredients": [
+        {
+            "name": "",
+            "quantity": int,
+            "unit": ""
+        },
+    ],
+    "properties": [],
+    "recipe": "",
+    "quantity_produced": float,
+    "unit": "",
+    "price": float,
+    "version": "1.0"
+}
+
+Stock:
+{
+    "name": "",
+    "quantity": int,
+    "unit": "",
+    "expiry_date": "2024-12-23",
+    "price": float
+}
+
+Users:
+{
+    "email": "",
+    "username": "",
+    "password": ""
+}
