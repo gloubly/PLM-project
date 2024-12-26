@@ -59,7 +59,6 @@ class AdminPage(tk.Frame):
         ttk.Label(add_user_frame, textvariable=self.error_var, foreground='red').grid(row=5, column=0, columnspan=2, pady=10, padx=10)
 
 
-
     def load_users(self):
         req = self.users_collection.find({}, {"_id": 1, "email": 1, "username": 1, "pwd_length": {"$strLenCP": "$password"}})
         for user in req:
