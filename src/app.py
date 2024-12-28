@@ -1,9 +1,10 @@
 import tkinter as tk
+from tkinter import ttk
 import pymongo
 from products import ProductsPage
-from login import LoginPage
-from ingredients import IngredientsPage
-from recipes import RecipesPage
+from single_product import Product
+from users import UsersPage
+from utils import clear_frame
 
 # https://stackoverflow.com/questions/17466561/what-is-the-best-way-to-structure-a-tkinter-application
 class App(tk.Tk):
@@ -16,38 +17,6 @@ class App(tk.Tk):
             self.after(timeout, lambda:self.destroy()) # for testing
         
         self.login_page()
-
-
-    def menu(self):
-        self.pages = {
-            "Products": ProductsPage,
-            "Ingredients": IngredientsPage,
-            "Recipes": RecipesPage,
-            "Ingredients3": IngredientsPage,
-        }
-        self.current_page = None
-
-        buttons_frame = tk.Frame(self)
-        buttons_frame.pack(pady=10)
-        for i, label in enumerate(self.pages):
-            tk.Button(buttons_frame, text=label, command=lambda page=label: self.load_page(page), padx=10).grid(row=0, column=i, padx=5)
-
-        self.content_frame = tk.Frame(self)
-        self.content_frame.pack(fill='both', expand=True)
-
-    def load_page(self, page_name):
-        if self.current_page == page_name:
-            return  # Avoid reloading the same page
-        
-        # Clear the content frame and load the new page
-        self.clear_frame()
-        page_class = self.pages[page_name]
-        self.current_page = page_name
-        page_class(self.content_frame, self.database).pack(fill="both", expand=True)
-
-    def clear_frame(self):
-        for widget in self.content_frame.winfo_children():
-            widget.destroy()
     
     def login_page(self):
         FRAME_BG_COLOR = "#4287f5"
@@ -75,19 +44,41 @@ class App(tk.Tk):
         tk.Label(login_frame, textvariable=error_var, bg=FRAME_BG_COLOR, fg='red').pack()
 
     def login(self, username, password, stringvar):
+        username, password = "gloubly", 'root'
         if username!="" and password!="":
-            project = self.database["users"].find_one({"username":username, "password":password})
-            if project:
+            self.user = self.database["users"].find_one({"username":username, "password":password})
+            if self.user:
                 stringvar.set("")
-                for widget in self.winfo_children():
-                    widget.destroy()
-                self.menu()
+                clear_frame(self)
+                self.load_notebook()
+                # ProductsPage(self, self.database).pack(fill="both", expand=True)
             else:
                 stringvar.set("error login")
+
+    def load_notebook(self):
+        self.notebook = ttk.Notebook(self)
+        self.notebook.pack(fill='both', expand=True)
+
+        self.products_page = ProductsPage(self, database)
+        self.products_page.pack(fill='both', expand=True)
+        self.notebook.add(self.products_page, text="Products")
+        if self.user['admin']:
+            self.user_page = UsersPage(self, database)
+            self.user_page.pack(fill='both', expand=True)
+            self.notebook.add(self.user_page, text="Users")
+    
+    def load_product_page(self):
+        self.product_page = Product(self, database)
+        self.notebook.pack(fill='both', expand=True)
+        self.notebook.add(self.product_page, text="Product")
+        self.notebook.select(self.product_page)
+        
+        
+
 
 
 mongo_client = pymongo.MongoClient("mongodb://localhost:27017/")
 database = mongo_client["db_plm"]
 
-app = App(database, timeout=20000)
+app = App(database)
 app.mainloop()

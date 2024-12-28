@@ -21,6 +21,9 @@ def create_checkboxes(frame:tk.Frame, properties:list[str]):
     return checkboxes
     #to get the list of the checked properties: [prop for prop, box in zip(properties, checkboxes) if box.get()]
 
+def clear_frame(frame):
+    for widget in frame.winfo_children():
+        widget.destroy()
 
 def scrollable_label(parent, width, height, stringvar=None, text=None):
 
@@ -34,7 +37,6 @@ def scrollable_label(parent, width, height, stringvar=None, text=None):
     outer_frame = tk.Frame(parent, width=width, height=height, borderwidth=1, relief="groove", bg='white')
     outer_frame.pack(fill='both')
     
-    # Create a canvas
     canvas = tk.Canvas(outer_frame, bg='white', width=width, height=height)
     canvas.pack(side='left')
     
@@ -63,14 +65,15 @@ def scrollable_label(parent, width, height, stringvar=None, text=None):
 
 
 # allow to add a placeholder text on an entry
-class Custom_Entry(ttk.Entry):
+class Placeholder_Entry(ttk.Entry):
     def __init__(self, parent, placeholder='', **kwargs):
         super().__init__(parent, **kwargs)
         self.placeholder = placeholder
+        self.parent = parent
         self.add_placeholder()
 
-
     def add_placeholder(self):
+        self.delete(0, 'end')
         self.insert(0, self.placeholder)
         self.config(foreground="gray")
         self.bind("<FocusIn>", self.on_focus_in)
@@ -85,3 +88,38 @@ class Custom_Entry(ttk.Entry):
         if not self.get():
             self.insert(0, self.placeholder)
             self.config(foreground="gray")
+    
+    def reset_placeholder(self):
+        self.delete(0, 'end')
+        self.insert(0, self.placeholder)
+        self.config(foreground="gray")
+        self.parent.focus()
+
+    def set(self, s:str):
+        self.delete(0, 'end')
+        self.insert(0, s)
+        self.config(foreground="black")
+
+
+class TreeEntryPopup(tk.Entry):
+    def __init__(self, parent, iid, column, text, **kw):
+        super().__init__(parent, **kw)
+        self.tv = parent
+        self.iid = iid
+        self.column = column
+
+        self.insert(0, text) 
+        self['exportselection'] = False
+
+        self.focus_force()
+        self.bind("<Return>", self.on_return)
+        self.bind("<Control-a>", self.select_all)
+        self.bind("<Escape>", lambda *args: self.destroy())
+
+    def on_return(self, event):
+        self.tv.set(self.iid, self.column, self.get())
+        self.destroy()
+
+    def select_all(self, *ignore):
+        self.selection_range(0, 'end') # Ctrl+A
+        return 'break' # returns 'break' to interrupt default key-bindings

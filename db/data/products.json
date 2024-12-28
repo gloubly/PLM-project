@@ -12,7 +12,7 @@
         "batch_yield": 10000.0,
         "unit": "liters",
         "price": 2.5,
-        "version": "1.0"
+        "version": "1.0.0"
     },
     {
         "product_id": 2,
@@ -29,7 +29,7 @@
         "batch_yield": 5000.0,
         "unit": "kg",
         "price": 8.0,
-        "version": "1.0"
+        "version": "1.0.0"
     },
     {
         "product_id": 3,
@@ -45,7 +45,7 @@
         "batch_yield": 7000.0,
         "unit": "kg",
         "price": 3.0,
-        "version": "1.0"
+        "version": "1.0.0"
     },
     {
         "product_id": 4,
@@ -61,7 +61,7 @@
         "batch_yield": 6000.0,
         "unit": "kg",
         "price": 5.0,
-        "version": "1.0"
+        "version": "1.0.0"
       },
       {
         "product_id": 5,
@@ -76,7 +76,7 @@
         "batch_yield": 7000.0,
         "unit": "liters",
         "price": 3.5,
-        "version": "1.0"
+        "version": "1.0.0"
       },
       {
         "product_id": 6,
@@ -93,7 +93,7 @@
         "batch_yield": 5000.0,
         "unit": "kg",
         "price": 7.0,
-        "version": "1.0"
+        "version": "1.0.0"
       },
     {
         "product_id": 7,
@@ -110,7 +110,7 @@
         "batch_yield": 10000.0,
         "unit": "liters",
         "price": 4.0,
-        "version": "1.0"
+        "version": "1.0.0"
     },
     {
         "product_id": 8,
@@ -127,7 +127,7 @@
         "batch_yield": 6,
         "unit": "yogurt",
         "price": 3.5,
-        "version": "1.0"
+        "version": "1.0.0"
     },
     {
         "product_id": 9,
@@ -144,7 +144,7 @@
         "batch_yield": 6,
         "unit": "yogurt",
         "price": 3.5,
-        "version": "1.0"
+        "version": "1.0.0"
     },
     {
         "product_id": 10,
@@ -161,7 +161,7 @@
         "batch_yield": 6,
         "unit": "yogurt",
         "price": 3.5,
-        "version": "1.0"
+        "version": "1.0.0"
     },
     {
         "product_id": 11,
@@ -178,7 +178,7 @@
         "batch_yield": 6,
         "unit": "yogurt",
         "price": 3.5,
-        "version": "1.0"
+        "version": "1.0.0"
     },
     {
         "product_id": 12,
@@ -195,7 +195,7 @@
         "batch_yield": 6,
         "unit": "yogurt",
         "price": 3.5,
-        "version": "1.0"
+        "version": "1.0.0"
     },
     {
         "product_id": 13,
@@ -212,6 +212,6 @@
         "batch_yield": 4000.0,
         "unit": "kg",
         "price": 9.0,
-        "version": "1.0"
+        "version": "1.0.0"
     }
 ]

@@ -12,7 +12,7 @@
         "batch_yield": 8000.0,
         "unit": "liters",
         "price": 2.4,
-        "version": "0.9"
+        "version": "0.0.9"
     },
     {
         "fk_product_id": 4,
@@ -28,7 +28,7 @@
         "batch_yield": 5000.0,
         "unit": "kg",
         "price": 4.8,
-        "version": "0.9"
+        "version": "0.0.9"
     },
     {
         "fk_product_id": 4,
@@ -44,7 +44,7 @@
         "batch_yield": 5000.0,
         "unit": "kg",
         "price": 4.8,
-        "version": "0.7"
+        "version": "0.0.7"
     },
     {
         "fk_product_id": 7,
@@ -61,6 +61,6 @@
         "batch_yield": 8000.0,
         "unit": "liters",
         "price": 3.8,
-        "version": "0.9"
+        "version": "0.0.9"
     }
 ]
