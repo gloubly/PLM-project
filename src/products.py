@@ -172,18 +172,7 @@ class ProductsPage(tk.Frame):
 
     def edit_product(self):
         assert(isinstance(self.product_id, int)), "product_id should be an integer"
-        # clear_frame(self.parent)
-        # Product(self.parent, self.database, product_id=self.product_id).pack(fill='both', expand=True)
+        self.parent.load_product_page(self.product_id)
     
     def add_product(self):
         self.parent.load_product_page()
-
-if __name__ == "__main__":
-    import pymongo
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
-    database = client["db_plm"]
-    root = tk.Tk()
-    ProductsPage(root, database).pack(fill='both', expand=True)
-    root.state('zoomed')
-    root.after(20000, lambda: root.destroy())
-    root.mainloop()

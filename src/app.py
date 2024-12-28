@@ -58,6 +58,8 @@ class App(tk.Tk):
     def load_notebook(self):
         self.notebook = ttk.Notebook(self)
         self.notebook.pack(fill='both', expand=True)
+        self.product_page = None
+        self.restore_page = None
 
         self.products_page = ProductsPage(self, database)
         self.products_page.pack(fill='both', expand=True)
@@ -67,8 +69,17 @@ class App(tk.Tk):
             self.user_page.pack(fill='both', expand=True)
             self.notebook.add(self.user_page, text="Users")
     
-    def load_product_page(self):
-        self.product_page = Product(self, database)
+    def load_product_page(self, product_id:int=None): # product_id is optinal
+        if self.product_page:
+            if product_id==self.product_page.product_id:
+                self.notebook.select(self.product_page)
+                return None
+            else:
+                self.notebook.forget(self.product_page)
+        if isinstance(product_id, int):
+            self.product_page = Product(self, database, product_id=product_id)
+        else:
+            self.product_page = Product(self, database)
         self.notebook.pack(fill='both', expand=True)
         self.notebook.add(self.product_page, text="Product")
         self.notebook.select(self.product_page)
@@ -76,9 +87,8 @@ class App(tk.Tk):
         
 
 
-
-mongo_client = pymongo.MongoClient("mongodb://localhost:27017/")
-database = mongo_client["db_plm"]
-
-app = App(database)
-app.mainloop()
+if __name__ == '__main__':
+    mongo_client = pymongo.MongoClient("mongodb://localhost:27017/")
+    database = mongo_client["db_plm"]
+    app = App(database)
+    app.mainloop()

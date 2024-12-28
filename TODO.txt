@@ -4,5 +4,4 @@ single_product.py
 stock.py:
 - all
 
-history.py:
-- all
+update mongodb_schema.png
