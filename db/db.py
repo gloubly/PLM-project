@@ -15,7 +15,7 @@ for col in collections:
         database[col].drop()
     database[col]
 
-# TODO convert to datetime
+# load the data
 with open('data/products.json', 'r') as f:
     products = json.load(f)
 with open('data/productsHistory.json', 'r') as f:
@@ -29,6 +29,8 @@ for product in products:
     product["launching_date"] = datetime.strptime(product["launching_date"], "%Y-%m-%d")
 for product in productsHistory:
     product["launching_date"] = datetime.strptime(product["launching_date"], "%Y-%m-%d")
+for item in stock:
+    item['expiry_date'] = datetime.strptime(item["expiry_date"], "%Y-%m-%d")
 
 database["products"].insert_many(products)
 database["productsHistory"].insert_many(productsHistory)

@@ -2,8 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 import pymongo
 from products import ProductsPage
-from single_product import Product
+from single_product import SingleProductPage
 from users import UsersPage
+from stock import StockPage
 from utils import clear_frame
 
 # https://stackoverflow.com/questions/17466561/what-is-the-best-way-to-structure-a-tkinter-application
@@ -27,33 +28,31 @@ class App(tk.Tk):
         error_var = tk.StringVar(login_frame, "")
 
         # username
-        tk.Label(login_frame, text="Username", bg=INNER_BG_COLOR, fg='white', font=(20)).pack(fill="both", pady=(20,0))
+        tk.Label(login_frame, text="Username", bg=INNER_BG_COLOR, fg='white', font=(20), width=11).pack(pady=(20,0))
         username_entry = tk.Entry(login_frame)
         username_entry.pack()
 
         # password
-        tk.Label(login_frame, text="Password", bg=INNER_BG_COLOR, fg='white', font=(20)).pack(pady=(20,0), fill="both")
+        tk.Label(login_frame, text="Password", bg=INNER_BG_COLOR, fg='white', font=(20), width=11).pack(pady=(20,0))
         password_entry = tk.Entry(login_frame)
         password_entry.bind("<Return>", lambda event: self.login(username_entry.get(), password_entry.get(), error_var))
         password_entry.pack(pady=(0, 20))
 
-        # buttons
-        tk.Button(login_frame, text="Login", font=(17), padx=10, pady=0, relief="groove", borderwidth=2, fg='white', bg=INNER_BG_COLOR,
-                  activebackground='white', activeforeground=INNER_BG_COLOR,
-                  command=lambda: self.login(username_entry.get(), password_entry.get(), error_var)).pack()
-        tk.Label(login_frame, textvariable=error_var, bg=FRAME_BG_COLOR, fg='red').pack()
+        button_style = ttk.Style()
+        # button_style.theme_use('vista')
+        button_style.configure("login.TButton", font=(None, 12), background=FRAME_BG_COLOR)
+        ttk.Button(login_frame, text="Login", style="login.TButton", command=lambda: self.login(username_entry.get(), password_entry.get(), error_var)).pack()
+        tk.Label(login_frame, textvariable=error_var, bg=FRAME_BG_COLOR, fg='red', width=20).pack()
 
     def login(self, username, password, stringvar):
-        username, password = "gloubly", 'root'
         if username!="" and password!="":
             self.user = self.database["users"].find_one({"username":username, "password":password})
             if self.user:
                 stringvar.set("")
                 clear_frame(self)
                 self.load_notebook()
-                # ProductsPage(self, self.database).pack(fill="both", expand=True)
             else:
-                stringvar.set("error login")
+                stringvar.set("Wrong username/password")
 
     def load_notebook(self):
         self.notebook = ttk.Notebook(self)
@@ -64,6 +63,11 @@ class App(tk.Tk):
         self.products_page = ProductsPage(self, database)
         self.products_page.pack(fill='both', expand=True)
         self.notebook.add(self.products_page, text="Products")
+
+        self.stock_page = StockPage(self, database)
+        self.stock_page.pack(fill='both', expand=True)
+        self.notebook.add(self.stock_page, text="Stock")
+
         if self.user['admin']:
             self.user_page = UsersPage(self, database)
             self.user_page.pack(fill='both', expand=True)
@@ -77,9 +81,9 @@ class App(tk.Tk):
             else:
                 self.notebook.forget(self.product_page)
         if isinstance(product_id, int):
-            self.product_page = Product(self, database, product_id=product_id)
+            self.product_page = SingleProductPage(self, database, product_id=product_id)
         else:
-            self.product_page = Product(self, database)
+            self.product_page = SingleProductPage(self, database)
         self.notebook.pack(fill='both', expand=True)
         self.notebook.add(self.product_page, text="Product")
         self.notebook.select(self.product_page)

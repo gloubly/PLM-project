@@ -1,16 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter.messagebox import showerror, askokcancel
-from bson import ObjectId
-
-def add_stringvar(stringvar: tk.StringVar, text, sep='\n'):
-    s = stringvar.get()
-    stringvar.set(s + sep + text)
-
-def remove_last(stringvar: tk.StringVar, sep='\n'):
-    s = stringvar.get()
-    index = s.rfind(sep)
-    stringvar.set(s[:index])
+from datetime import datetime
+from tkcalendar import Calendar
+import re
+from collections.abc import Callable
 
 def create_checkboxes(frame:tk.Frame, properties:list[str]):
     checkboxes = []
@@ -63,8 +56,30 @@ def scrollable_label(parent, width, height, stringvar=None, text=None):
     inner_frame.update_idletasks()
     canvas.config(scrollregion=canvas.bbox("all"))
 
+###########
+## DATES ##
+###########
+
+DATE_FORMAT = "%d/%m/%Y"
+
+def str_to_date(s):
+    return datetime.strptime(s, DATE_FORMAT)
+
+def date_to_str(date):
+    return datetime.strftime(date, DATE_FORMAT)
+
+#################
+## Check entry ##
+#################
+
+def validate_float(s):
+    return re.match(r"^[0-9]+(\.[0-9]*)?$", s) is not None or s==""
+
+def validate_int(s:str):
+    return s.isdecimal() or s==""
 
 # allow to add a placeholder text on an entry
+
 class Placeholder_Entry(ttk.Entry):
     def __init__(self, parent, placeholder='', **kwargs):
         super().__init__(parent, **kwargs)
@@ -80,16 +95,19 @@ class Placeholder_Entry(ttk.Entry):
         self.bind("<FocusOut>", self.on_focus_out)
 
     def on_focus_in(self, event):
+        self.config(foreground="black")
         if self.get() == self.placeholder:
             self.delete(0, 'end')
-            self.config(foreground="black")
+        self.config(validate='key')
     
     def on_focus_out(self, event):
+        self.config(validate='none')
         if not self.get():
             self.insert(0, self.placeholder)
             self.config(foreground="gray")
     
     def reset_placeholder(self):
+        self.config(validate='none')
         self.delete(0, 'end')
         self.insert(0, self.placeholder)
         self.config(foreground="gray")
@@ -102,11 +120,13 @@ class Placeholder_Entry(ttk.Entry):
 
 
 class TreeEntryPopup(tk.Entry):
-    def __init__(self, parent, iid, column, text, **kw):
+    def __init__(self, parent, iid, column:str, text, exit_fct:Callable=None, **kw):
         super().__init__(parent, **kw)
         self.tv = parent
         self.iid = iid
         self.column = column
+        self.exit_fct = exit_fct
+        self.original_text = text
 
         self.insert(0, text) 
         self['exportselection'] = False
@@ -117,9 +137,31 @@ class TreeEntryPopup(tk.Entry):
         self.bind("<Escape>", lambda *args: self.destroy())
 
     def on_return(self, event):
-        self.tv.set(self.iid, self.column, self.get())
+        if self.exit_fct:
+            if self.exit_fct(self.column, self.get(), self.original_text):
+                # exit performed normally
+                self.tv.set(self.iid, self.column, self.get())
+        else:
+            self.tv.set(self.iid, self.column, self.get())
+        self.tv.unbind('<Button-1>')
         self.destroy()
 
     def select_all(self, *ignore):
         self.selection_range(0, 'end') # Ctrl+A
         return 'break' # returns 'break' to interrupt default key-bindings
+
+
+def date_popup(stringvar:tk.StringVar, event):
+    def validate(event=None):
+        stringvar.set(date_to_str(datetime.strptime(calendar.get_date(), '%m/%d/%y')))
+        new_window.destroy()
+    
+    date_split = stringvar.get().split("/")
+    new_window = tk.Toplevel()
+    calendar = Calendar(new_window, selectmode = 'day', day=int(date_split[0]), month=int(date_split[1]), year=int(date_split[2]))
+    for row in calendar._calendar:
+        for lbl in row:
+            lbl.bind('<Double-1>', validate)
+    calendar.pack()
+    ttk.Button(new_window, text="Validate", command=validate).pack()
+    new_window.geometry("+%d+%d" % (event.x_root-new_window.winfo_reqwidth()//2,event.y_root))

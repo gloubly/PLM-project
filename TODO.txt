@@ -1,7 +1,2 @@
-single_product.py
-- properties ?
-
-stock.py:
-- all
-
-update mongodb_schema.png
+products:
+- deleted products into history ?

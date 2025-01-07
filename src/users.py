@@ -2,8 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showerror, askokcancel, askyesno
 from utils import Placeholder_Entry
-
-import pymongo
 from bson import ObjectId
 
 USERS_COLUMNS = {
@@ -139,13 +137,3 @@ class UsersPage(tk.Frame):
         values[3] = 'No' if admin else 'Yes'
         self.tree_users.item(self.user_id, values=values)
         self.users_collection.update_one({ "_id": ObjectId(self.user_id)}, { "$set": {"admin": False if admin else True}})
-
-if __name__ == "__main__":
-    import pymongo
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
-    database = client["db_plm"]
-    root = tk.Tk()
-    UsersPage(root, database).pack(fill='both', expand=True)
-    root.state('zoomed')
-    root.after(20000, lambda: root.destroy())
-    root.mainloop()

@@ -3,7 +3,6 @@ from tkinter import ttk
 from bson import ObjectId
 from tkinter.messagebox import showerror, askokcancel
 from utils import scrollable_label, clear_frame
-from single_product import Product
 
 PRODUCTS_COLUMNS = {
     "name": .14,

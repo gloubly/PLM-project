@@ -4,83 +4,95 @@
         "quantity": 500,
         "unit": "liters",
         "expiry_date": "2024-12-30",
-        "price": 2.5
+        "price": 2.5,
+        "type":"ingredient"
     },
     {
         "name": "Cheddar Cheese",
         "quantity": 200,
         "unit": "kg",
         "expiry_date": "2025-06-15",
-        "price": 8.0
+        "price": 8.0,
+        "type":"product"
     },
     {
         "name": "Plain Greek Yogurt",
         "quantity": 300,
         "unit": "kg",
         "expiry_date": "2025-01-10",
-        "price": 3.0
+        "price": 3.0,
+        "type":"product"
     },
     {
         "name": "Vanilla Ice Cream",
         "quantity": 400,
         "unit": "liters",
         "expiry_date": "2025-02-01",
-        "price": 4.0
+        "price": 4.0,
+        "type":"product"
     },
     {
         "name": "Strawberry Yogurt",
         "quantity": 350,
         "unit": "yogurt",
         "expiry_date": "2025-01-15",
-        "price": 3.5
+        "price": 3.5,
+        "type":"product"
     },
     {
         "name": "Vanilla Yogurt",
         "quantity": 350,
         "unit": "yogurt",
         "expiry_date": "2025-01-15",
-        "price": 3.5
+        "price": 3.5,
+        "type":"product"
     },
     {
         "name": "Orange Yogurt",
         "quantity": 350,
         "unit": "yogurt",
         "expiry_date": "2025-01-15",
-        "price": 3.5
+        "price": 3.5,
+        "type":"product"
     },
     {
         "name": "Pear Yogurt",
         "quantity": 350,
         "unit": "yogurt",
         "expiry_date": "2025-01-15",
-        "price": 3.5
+        "price": 3.5,
+        "type":"product"
     },
     {
         "name": "Parmesan Cheese",
         "quantity": 200,
         "unit": "kg",
         "expiry_date": "2025-06-30",
-        "price": 9.0
+        "price": 9.0,
+        "type":"product"
     },
     {
         "name": "Salted Butter",
         "quantity": 300,
         "unit": "kg",
         "expiry_date": "2025-01-15",
-        "price": 5.0
+        "price": 5.0,
+        "type":"product"
     },
     {
         "name": "Heavy Cream",
         "quantity": 400,
         "unit": "liters",
         "expiry_date": "2025-02-01",
-        "price": 3.5
+        "price": 3.5,
+        "type":"product"
     },
     {
         "name": "Mozzarella Cheese",
         "quantity": 250,
         "unit": "kg",
         "expiry_date": "2025-03-10",
-        "price": 7.0
+        "price": 7.0,
+        "type":"product"
     }
 ]

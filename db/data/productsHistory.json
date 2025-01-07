@@ -7,7 +7,6 @@
         "ingredients": [
           {"name": "Whole Milk", "quantity": 950, "unit": "ml"}
         ],
-        "properties": ["High Calcium"],
         "recipe": "Original version with slightly reduced volume.",
         "batch_yield": 8000.0,
         "unit": "liters",
@@ -23,7 +22,6 @@
             {"name": "Cream", "quantity": 940, "unit": "ml"},
             {"name": "Salt", "quantity": 9, "unit": "g"}
         ],
-        "properties": ["Rich Flavor"],
         "recipe": "Original version with slightly less salt.",
         "batch_yield": 5000.0,
         "unit": "kg",
@@ -39,7 +37,6 @@
             {"name": "Cream", "quantity": 960, "unit": "ml"},
             {"name": "Salt", "quantity": 7, "unit": "g"}
         ],
-        "properties": ["Rich Flavor"],
         "recipe": "Original version with slightly less salt.",
         "batch_yield": 5000.0,
         "unit": "kg",
@@ -56,7 +53,6 @@
             {"name": "Sugar", "quantity": 90, "unit": "g"},
             {"name": "Vanilla Extract", "quantity": 4, "unit": "ml"}
         ],
-        "properties": ["Sweet"],
         "recipe": "Initial formula with reduced quantities.",
         "batch_yield": 8000.0,
         "unit": "liters",

@@ -1,11 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-from tkcalendar import Calendar
-from utils import Placeholder_Entry, TreeEntryPopup
+from utils import Placeholder_Entry, TreeEntryPopup, str_to_date, date_to_str, validate_float, date_popup
 from tkinter.messagebox import showerror, askyesno
 from test import TestApp
 from datetime import datetime
-import re
 import tkinter.font as tkfont
 
 DATE_FORMAT = "%d/%m/%Y"
@@ -16,16 +14,7 @@ INGREDIENTS_COLUMNS = {
     "unit": 0.3
 }
 
-def validate_float(s):
-    return re.match(r"^[0-9]+(\.[0-9]*)?$", s) is not None or s==""
-
-def str_to_date(s):
-    return datetime.strptime(s, DATE_FORMAT)
-
-def date_to_str(date):
-    return datetime.strftime(date, DATE_FORMAT)
-
-class Product(tk.Frame):
+class SingleProductPage(tk.Frame):
     def __init__(self, parent, database, product_id:int=-1, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
 
@@ -42,7 +31,7 @@ class Product(tk.Frame):
         form_frame = tk.Frame(self.content_frame)
         form_frame.grid(row=0, column=0, sticky='n', padx=10)
 
-        self.launching_date_var = tk.StringVar(form_frame, f"{date_to_str(datetime.now())}")
+        self.launching_date_var = tk.StringVar(form_frame, date_to_str(datetime.now()))
         self.version_var = tk.StringVar(form_frame, "")
         self.change_type_var = tk.StringVar(form_frame, "")
         self.new_version_var = tk.StringVar(form_frame, "1.0.0")
@@ -60,7 +49,7 @@ class Product(tk.Frame):
         
         tk.Label(form_frame, text="Launching Date", width=12, anchor='w').grid(row=1, column=0, sticky='nw', pady=5)
         self.date_label = tk.Label(form_frame, textvariable=self.launching_date_var, width=14, bg='white', anchor='w')
-        self.date_label.bind("<Button-1>", self.choose_date)
+        self.date_label.bind("<Button-1>", lambda event: date_popup(self.launching_date_var, event))
         self.date_label.grid(row=1, column=1, pady=5, sticky="ne")
 
         tk.Label(form_frame, text="Price", width=12, anchor='w').grid(row=1, column=2, sticky='nw', pady=5)
@@ -202,21 +191,6 @@ class Product(tk.Frame):
         index = int(self.change_type_var.get())
         version_array[index] = str(int(version_array[index]) + 1)
         self.new_version_var.set(".".join(version_array))
-
-    def choose_date(self, event):
-        def validate(event=None):
-            self.launching_date_var.set(datetime.strftime(datetime.strptime(calendar.get_date(), '%m/%d/%y'), DATE_FORMAT))
-            new_window.destroy()
-        
-        date_split = self.launching_date_var.get().split("/")
-        new_window = tk.Toplevel()
-        calendar = Calendar(new_window, selectmode = 'day', day=int(date_split[0]), month=int(date_split[1]), year=int(date_split[2]))
-        for row in calendar._calendar:
-            for lbl in row:
-                lbl.bind('<Double-1>', validate)
-        calendar.pack()
-        ttk.Button(new_window, text="Validate", command=validate).pack()
-        new_window.geometry("+%d+%d" % (event.x_root-new_window.winfo_reqwidth()//2,event.y_root))
         
     def get_ingredients(self):
         return [{column:float(value) if column=='quantity' else value for value, column in zip(self.tree_ingredients.item(row)["values"], INGREDIENTS_COLUMNS)} for row in self.tree_ingredients.get_children()]
@@ -228,13 +202,17 @@ class Product(tk.Frame):
     def on_double_click(self, event):
         row = self.tree_ingredients.identify_row(event.y)
         column = self.tree_ingredients.identify_column(event.x)
-        x, y, width, _ = self.tree_ingredients.bbox(row, column)
-        self.cell_text = self.tree_ingredients.item(row, 'text') or self.tree_ingredients.set(row, column)
-        self.entryPopup = TreeEntryPopup(self.tree_ingredients, row, column, self.cell_text)
-        if int(column[1])==2: # column = #1, #2, ...
-            self.entryPopup.configure(validatecommand=(self.register(validate_float), '%P'), validate="key")
-        self.entryPopup.place(x=x, y=y, anchor='w', width=width)
-        self.tree_ingredients.bind("<Button-1>", lambda event: self.close_popup() if self.entryPopup else None)
+        try:
+            x, y, width, _ = self.tree_ingredients.bbox(row, column) # crash when not double clicking on cell
+        except: 
+            pass
+        else:
+            cell_text = self.tree_ingredients.item(row, 'text') or self.tree_ingredients.set(row, column)
+            self.entryPopup = TreeEntryPopup(self.tree_ingredients, row, column, cell_text, exit_fct=self.on_cell_change)
+            if int(column[1])==2: # column = #1, #2, ...
+                self.entryPopup.configure(validatecommand=(self.register(validate_float), '%P'), validate="key")
+            self.entryPopup.place(x=x, y=y, anchor='w', width=width)
+            self.tree_ingredients.bind("<Button-1>", lambda event: self.entryPopup.destroy())
 
     def on_right_click(self, event):
         self.selected_row = self.tree_ingredients.identify_row(event.y)
@@ -245,12 +223,10 @@ class Product(tk.Frame):
             finally:
                 self.tree_ingredients_menu.grab_release()
 
-    def close_popup(self):
-        if self.entryPopup:
-            if self.entryPopup.get()!=self.cell_text:
-                self.on_change()
-            self.entryPopup.destroy()
-            self.entryPopup = None
+    def on_cell_change(self, column, new_val, previous_val):
+        if new_val!=previous_val:
+            self.on_change()
+        return True
 
     def on_change(self, *args):
         self.error_var.set("Warning, you have unsaved changes !")
@@ -275,7 +251,7 @@ class Product(tk.Frame):
             self.radio1.config(state='normal')
             self.radio2.config(state='normal')
             self.radio3.config(state='normal')
-            self.date_label.bind("<Button-1>", self.choose_date)
+            self.date_label.bind("<Button-1>", lambda event: date_popup(self.launching_date_var, event))
 
 
     #############
@@ -417,7 +393,7 @@ if __name__ == '__main__':
     database = client["db_plm"]
     app = TestApp(database, 20000)
 
-    app.product_page = Product(app, app.database, product_id=4)
+    app.product_page = SingleProductPage(app, app.database, product_id=4)
     
     app.notebook.add(app.product_page, text="Product")
     app.notebook.select(app.product_page)
