@@ -1,0 +1,62 @@
+[
+    {
+        "fk_product_id": 1,
+        "name": "Organic Whole Milk",
+        "category": "Milk",
+        "launching_date": "2024-12-20",
+        "ingredients": [
+          {"name": "Whole Milk", "quantity": 950, "unit": "ml"}
+        ],
+        "recipe": "Original version with slightly reduced volume.",
+        "batch_yield": 8000.0,
+        "unit": "liters",
+        "price": 2.4,
+        "version": "0.0.9"
+    },
+    {
+        "fk_product_id": 4,
+        "name": "Salted Butter",
+        "category": "Butter",
+        "launching_date": "2024-12-20",
+        "ingredients": [
+            {"name": "Cream", "quantity": 940, "unit": "ml"},
+            {"name": "Salt", "quantity": 9, "unit": "g"}
+        ],
+        "recipe": "Original version with slightly less salt.",
+        "batch_yield": 5000.0,
+        "unit": "kg",
+        "price": 4.8,
+        "version": "0.0.9"
+    },
+    {
+        "fk_product_id": 4,
+        "name": "Salted Butter",
+        "category": "Butter",
+        "launching_date": "2024-12-20",
+        "ingredients": [
+            {"name": "Cream", "quantity": 960, "unit": "ml"},
+            {"name": "Salt", "quantity": 7, "unit": "g"}
+        ],
+        "recipe": "Original version with slightly less salt.",
+        "batch_yield": 5000.0,
+        "unit": "kg",
+        "price": 4.8,
+        "version": "0.0.7"
+    },
+    {
+        "fk_product_id": 7,
+        "name": "Vanilla Ice Cream",
+        "category": "Ice Cream",
+        "launching_date": "2024-12-20",
+        "ingredients": [
+            {"name": "Cream", "quantity": 480, "unit": "ml"},
+            {"name": "Sugar", "quantity": 90, "unit": "g"},
+            {"name": "Vanilla Extract", "quantity": 4, "unit": "ml"}
+        ],
+        "recipe": "Initial formula with reduced quantities.",
+        "batch_yield": 8000.0,
+        "unit": "liters",
+        "price": 3.8,
+        "version": "0.0.9"
+    }
+]

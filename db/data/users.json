@@ -1,0 +1,26 @@
+[
+{
+    "email": "etienne.goury@edu.devinci.fr",
+    "username": "gloubly",
+    "password": "root",
+    "admin": true
+},
+{
+    "email":"killian.lafaye@edu.devinci.fr",
+    "username": "scaylin",
+    "password": "scaylin",
+    "admin": false
+},
+{
+    "email": "etienne.goury2@edu.devinci.fr",
+    "username": "gloubly2",
+    "password": "hey",
+    "admin": false
+},
+{
+    "email": "NaN",
+    "username": "admin",
+    "password": "root",
+    "admin": false
+}
+]

@@ -1,0 +1,204 @@
+[
+    {
+        "product_id": 1,
+        "name": "Organic Whole Milk",
+        "category": "Milk",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Whole Milk", "quantity": 1000, "unit": "ml"}
+        ],
+        "recipe": "Pasteurized and homogenized whole milk.",
+        "batch_yield": 10000.0,
+        "unit": "liters",
+        "price": 2.5,
+        "version": "1.0.0"
+    },
+    {
+        "product_id": 2,
+        "name": "Cheddar Cheese",
+        "category": "Cheese",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Cow Milk", "quantity": 800, "unit": "ml"},
+            {"name": "Rennet", "quantity": 5, "unit": "g"},
+            {"name": "Salt", "quantity": 10, "unit": "g"}
+        ],
+        "recipe": "Curdled, pressed, and aged for six months.",
+        "batch_yield": 5000.0,
+        "unit": "kg",
+        "price": 8.0,
+        "version": "1.0.0"
+    },
+    {
+        "product_id": 3,
+        "name": "Plain Greek Yogurt",
+        "category": "Yogurt",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Skimmed Milk", "quantity": 1000, "unit": "ml"},
+            {"name": "Live Cultures", "quantity": 50, "unit": "g"}
+        ],
+        "recipe": "Fermented and strained to create a thick texture.",
+        "batch_yield": 7000.0,
+        "unit": "kg",
+        "price": 3.0,
+        "version": "1.0.0"
+    },
+    {
+        "product_id": 4,
+        "name": "Salted Butter",
+        "category": "Butter",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Cream", "quantity": 1000, "unit": "ml"},
+            {"name": "Salt", "quantity": 10, "unit": "g"}
+        ],
+        "recipe": "Churned cream with added salt for flavor.",
+        "batch_yield": 6000.0,
+        "unit": "kg",
+        "price": 5.0,
+        "version": "1.0.0"
+      },
+      {
+        "product_id": 5,
+        "name": "Heavy Cream",
+        "category": "Cream",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Cream", "quantity": 1000, "unit": "ml"}
+        ],
+        "recipe": "Separated and pasteurized to ensure long shelf life.",
+        "batch_yield": 7000.0,
+        "unit": "liters",
+        "price": 3.5,
+        "version": "1.0.0"
+      },
+      {
+        "product_id": 6,
+        "name": "Mozzarella Cheese",
+        "category": "Cheese",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Cow Milk", "quantity": 900, "unit": "ml"},
+            {"name": "Rennet", "quantity": 5, "unit": "g"},
+            {"name": "Salt", "quantity": 8, "unit": "g"}
+        ],
+        "recipe": "Curdled, stretched, and formed into balls.",
+        "batch_yield": 5000.0,
+        "unit": "kg",
+        "price": 7.0,
+        "version": "1.0.0"
+      },
+    {
+        "product_id": 7,
+        "name": "Vanilla Ice Cream",
+        "category": "Ice Cream",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Cream", "quantity": 500, "unit": "ml"},
+            {"name": "Sugar", "quantity": 100, "unit": "g"},
+            {"name": "Vanilla Extract", "quantity": 5, "unit": "ml"}
+        ],
+        "recipe": "Blended cream, sugar, and vanilla, then churned and frozen.",
+        "batch_yield": 10000.0,
+        "unit": "liters",
+        "price": 4.0,
+        "version": "1.0.0"
+    },
+    {
+        "product_id": 8,
+        "name": "Strawberry Yogurt",
+        "category": "Yogurt",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Skimmed Milk", "quantity": 1000, "unit": "ml"},
+            {"name": "Strawberry Puree", "quantity": 100, "unit": "g"},
+            {"name": "Sugar", "quantity": 50, "unit": "g"}
+        ],
+        "recipe": "Mixed and fermented milk with strawberry puree and sugar.",
+        "batch_yield": 6,
+        "unit": "yogurt",
+        "price": 3.5,
+        "version": "1.0.0"
+    },
+    {
+        "product_id": 9,
+        "name": "Orange Yogurt",
+        "category": "Yogurt",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Skimmed Milk", "quantity": 1000, "unit": "ml"},
+            {"name": "Orange Puree", "quantity": 100, "unit": "g"},
+            {"name": "Sugar", "quantity": 50, "unit": "g"}
+        ],
+        "recipe": "Mixed and fermented milk with orange puree and sugar.",
+        "batch_yield": 6,
+        "unit": "yogurt",
+        "price": 3.5,
+        "version": "1.0.0"
+    },
+    {
+        "product_id": 10,
+        "name": "Pear Yogurt",
+        "category": "Yogurt",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Skimmed Milk", "quantity": 1000, "unit": "ml"},
+            {"name": "Pear Puree", "quantity": 100, "unit": "g"},
+            {"name": "Sugar", "quantity": 50, "unit": "g"}
+        ],
+        "recipe": "Mixed and fermented milk with pear puree and sugar.",
+        "batch_yield": 6,
+        "unit": "yogurt",
+        "price": 3.5,
+        "version": "1.0.0"
+    },
+    {
+        "product_id": 11,
+        "name": "Apricot Yogurt",
+        "category": "Yogurt",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Skimmed Milk", "quantity": 1000, "unit": "ml"},
+            {"name": "Apricot Puree", "quantity": 100, "unit": "g"},
+            {"name": "Sugar", "quantity": 50, "unit": "g"}
+        ],
+        "recipe": "Mixed and fermented milk with apricot puree and sugar.",
+        "batch_yield": 6,
+        "unit": "yogurt",
+        "price": 3.5,
+        "version": "1.0.0"
+    },
+    {
+        "product_id": 12,
+        "name": "Vanilla Yogurt",
+        "category": "Yogurt",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Skimmed Milk", "quantity": 1000, "unit": "ml"},
+            {"name": "Vanilla Flavour", "quantity": 100, "unit": "g"},
+            {"name": "Sugar", "quantity": 50, "unit": "g"}
+        ],
+        "recipe": "Mixed and fermented milk with vanilla flavour and sugar.",
+        "batch_yield": 6,
+        "unit": "yogurt",
+        "price": 3.5,
+        "version": "1.0.0"
+    },
+    {
+        "product_id": 13,
+        "name": "Parmesan Cheese",
+        "category": "Cheese",
+        "launching_date": "2024-12-24",
+        "ingredients": [
+            {"name": "Cow Milk", "quantity": 800, "unit": "ml"},
+            {"name": "Rennet", "quantity": 5, "unit": "g"},
+            {"name": "Salt", "quantity": 20, "unit": "g"}
+        ],
+        "recipe": "Pressed and aged for 12 months.",
+        "batch_yield": 4000.0,
+        "unit": "kg",
+        "price": 9.0,
+        "version": "1.0.0"
+    }
+]

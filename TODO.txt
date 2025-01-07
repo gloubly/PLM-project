@@ -1,0 +1,2 @@
+products:
+- deleted products into history ?
