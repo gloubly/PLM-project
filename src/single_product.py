@@ -5,6 +5,7 @@ from tkinter.messagebox import showerror, askyesno
 from test import TestApp
 from datetime import datetime
 import tkinter.font as tkfont
+import locale
 
 DATE_FORMAT = "%d/%m/%Y"
 
@@ -105,11 +106,12 @@ class SingleProductPage(tk.Frame):
             self.tree_ingredients.column(tree_col, width=int(tree_ingredients_width*prop), anchor="w")
 
         self.tree_ingredients_menu = tk.Menu(tree_frame, tearoff=0)
-        self.tree_ingredients_menu.add_command(label="Remove", command=lambda: self.tree_ingredients.delete(self.selected_row))
+        self.tree_ingredients_menu.add_command(label="Remove", command=self.remove_ingredient)
         self.tree_ingredients.bind("<Button-3>", self.on_right_click)
         self.tree_ingredients.bind("<Double-1>", self.on_double_click)
 
-        ttk.Button(tree_frame, text="Add ingredient", command=self.add_ingredient).pack(pady=5)
+        self.button_ingredients = ttk.Button(tree_frame, text="Add an ingredient", command=self.add_ingredient)
+        self.button_ingredients.pack(pady=5)
 
         recipe_frame = tk.Frame(self.content_frame)
         recipe_frame.grid(row=2, column=0, sticky='n', padx=10)
@@ -126,9 +128,11 @@ class SingleProductPage(tk.Frame):
 
         buttons_frame = tk.Frame(recipe_frame)
         buttons_frame.pack(pady=5)
-        ttk.Button(buttons_frame, text="Save changes" if product_id!=-1 else "Add product", command=self.update_product).grid(row=0, column=0, padx=5)
+        self.button_save = ttk.Button(buttons_frame, text="Save changes" if product_id!=-1 else "Add product", command=self.update_product)
+        self.button_save.grid(row=0, column=0, padx=5)
         if self.product_id!=-1:
-            ttk.Button(buttons_frame, text="Restore a previous version", command=self.load_history).grid(row=0, column=1, padx=5)
+            self.button_restore  = ttk.Button(buttons_frame, text="Restore a previous version", command=self.load_history)
+            self.button_restore.grid(row=0, column=1, padx=5)
         tk.Label(recipe_frame, textvariable=self.error_var, fg='red').pack(pady=5)
 
         if self.product_id!=-1:
@@ -179,6 +183,10 @@ class SingleProductPage(tk.Frame):
         }
         self.products_collection.update_one({"product_id": self.product_id}, {"$set": values}, upsert=True)
         self.error_var.set("")
+
+    def remove_ingredient(self):
+        self.tree_ingredients.delete(self.selected_row)
+        self.on_change()
 
     def close(self):
         self.parent.notebook.forget(self.parent.product_page)
@@ -242,6 +250,9 @@ class SingleProductPage(tk.Frame):
             self.radio2.config(state='disabled')
             self.radio3.config(state='disabled')
             self.date_label.unbind("<Button-1>")
+            self.button_ingredients.config(state="disabled")
+            self.button_restore.config(state="disabled")
+            self.button_save.config(state="disabled")
         else:
             self.name_entry.config(state='normal')
             self.category_entry.config(state='normal')
@@ -252,7 +263,9 @@ class SingleProductPage(tk.Frame):
             self.radio2.config(state='normal')
             self.radio3.config(state='normal')
             self.date_label.bind("<Button-1>", lambda event: date_popup(self.launching_date_var, event))
-
+            self.button_ingredients.config(state="normal")
+            self.button_restore.config(state="normal")
+            self.button_save.config(state="normal")
 
     #############
     ## History ##

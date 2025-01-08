@@ -30,11 +30,12 @@ class App(tk.Tk):
         # username
         tk.Label(login_frame, text="Username", bg=INNER_BG_COLOR, fg='white', font=(20), width=11).pack(pady=(20,0))
         username_entry = tk.Entry(login_frame)
+        username_entry.focus_set()
         username_entry.pack()
 
         # password
         tk.Label(login_frame, text="Password", bg=INNER_BG_COLOR, fg='white', font=(20), width=11).pack(pady=(20,0))
-        password_entry = tk.Entry(login_frame)
+        password_entry = tk.Entry(login_frame, show="*")
         password_entry.bind("<Return>", lambda event: self.login(username_entry.get(), password_entry.get(), error_var))
         password_entry.pack(pady=(0, 20))
 

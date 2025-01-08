@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from bson import ObjectId
 from tkinter.messagebox import showerror, askokcancel
-from utils import scrollable_label, clear_frame
+from utils import scrollable_label, date_to_str
 
 PRODUCTS_COLUMNS = {
     "name": .14,
@@ -78,8 +78,8 @@ class ProductsPage(tk.Frame):
         right_frame = tk.Frame(content_frame)
         right_frame.grid(row=1, column=1, sticky="n")
         self.product_name_var = tk.StringVar(right_frame, "Product Name")
-        tk.Label(right_frame, textvariable=self.product_name_var).pack(pady=5)
-
+        tk.Label(right_frame, textvariable=self.product_name_var, font=(4)).pack(pady=5)
+        tk.Label(right_frame, text='Ingredients').pack()
         #ingredients
         tree_i_frame = tk.Frame(right_frame)
         tree_i_frame.pack()
@@ -106,7 +106,7 @@ class ProductsPage(tk.Frame):
     def load_products(self):
         req = self.products_collection.find({})
         for i, item in enumerate(req):
-            self.tree_products.insert("", "end", iid=item["product_id"], values=[item[col] for col in PRODUCTS_COLUMNS], tags = ('Blue' if i%2==0 else 'White'))
+            self.tree_products.insert("", "end", iid=item["product_id"], values=[item[col] if 'date' not in col else date_to_str(item[col]) for col in PRODUCTS_COLUMNS], tags = ('Blue' if i%2==0 else 'White'))
 
     def refresh_products(self):
         for row in self.tree_products.get_children():
@@ -125,7 +125,7 @@ class ProductsPage(tk.Frame):
         req = self.products_collection.find_one({"product_id": self.product_id}, {"name":1, "ingredients":1, "recipe":1})
         self.product_name_var.set(req['name'])
         for i, item in enumerate(req['ingredients']):
-            self.tree_ingredients.insert("", "end", values=[item[col] for col in INGREDIENTS_COLUMNS], tags = ('Blue' if i%2==0 else 'White'))
+            self.tree_ingredients.insert("", "end", values=[item[col] if 'date' not in col else date_to_str(item[col]) for col in INGREDIENTS_COLUMNS], tags = ('Blue' if i%2==0 else 'White'))
         self.recipe_text_var.set(req["recipe"])
     
     def clear_ingredients(self):

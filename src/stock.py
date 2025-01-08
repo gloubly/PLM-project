@@ -3,7 +3,7 @@ from tkinter import ttk
 from datetime import datetime
 from bson import ObjectId
 from utils import Placeholder_Entry, str_to_date, date_to_str, validate_float, date_popup, clear_frame, TreeEntryPopup
-from tkinter.messagebox import showerror
+from tkinter.messagebox import showerror, askokcancel
 from tkcalendar import Calendar
 from test import TestApp
 
@@ -127,7 +127,9 @@ class StockPage(tk.Frame):
             self.tree_error_var.set('')
 
     def remove_item(self):
-        print(self.selected_row)
+        proceed = askokcancel(title="Remove Item", message=f'Remove this item ?')
+        if not proceed:
+            return None
         req = self.stock_collection.delete_one({'_id': ObjectId(self.selected_row)})
         if req.deleted_count==0:
             showerror("DB error", f'Could not remove item {self.selected_row}')
