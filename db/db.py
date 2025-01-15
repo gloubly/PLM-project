@@ -31,6 +31,8 @@ for product in productsHistory:
     product["launching_date"] = datetime.strptime(product["launching_date"], "%Y-%m-%d")
 for item in stock:
     item['expiry_date'] = datetime.strptime(item["expiry_date"], "%Y-%m-%d")
+for user in users:
+    user['creation_date'] = datetime.strptime(user["creation_date"], "%Y-%m-%d")
 
 database["products"].insert_many(products)
 database["productsHistory"].insert_many(productsHistory)

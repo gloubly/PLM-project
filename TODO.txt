@@ -1,8 +1,0 @@
-products:
-- deleted products into history ?
-
-users:
-- creation date for each user ?
-
-bug:
-- all messagebox use the computer's language and you can't use a particular language

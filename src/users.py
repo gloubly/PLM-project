@@ -1,14 +1,17 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showerror, askokcancel, askyesno
-from utils import Placeholder_Entry
+from utils import Placeholder_Entry, date_to_str, str_to_date
+from datetime import datetime
+from test import TestApp
 from bson import ObjectId
 
 USERS_COLUMNS = {
-    'email': .25,
-    'username': .25,
-    'password': .25,
-    'admin': .25
+    'email': .2,
+    'username': .2,
+    'password': .2,
+    'admin': .2,
+    'creation_date': .2
 }
 
 
@@ -66,9 +69,9 @@ class UsersPage(tk.Frame):
 
 
     def load_users(self):
-        req = self.users_collection.find({}, {"_id": 1, "email": 1, "username": 1, "pwd_length": {"$strLenCP": "$password"}, 'admin':1})
+        req = self.users_collection.find({}, {"_id": 1, "email": 1, "username": 1, "pwd_length": {"$strLenCP": "$password"}, 'admin':1, 'creation_date':1})
         for user in req:
-            self.tree_users.insert("", "end", iid=user["_id"], values=[user["email"], user["username"], user["pwd_length"]*"*", 'Yes' if user["admin"] else 'No'])
+            self.tree_users.insert("", "end", iid=user["_id"], values=[user["email"], user["username"], user["pwd_length"]*"*", 'Yes' if user["admin"] else 'No', date_to_str(user['creation_date'])])
 
     def add_user(self):
         is_valid = True
@@ -88,9 +91,9 @@ class UsersPage(tk.Frame):
         if is_valid:
             self.error_var.set('')
             try:
-                new_user = {'email': self.email_var.get(), 'username': self.username_var.get(), 'password': self.password_var.get(), 'admin':self.checkbox_var.get()}
+                new_user = {'email': self.email_var.get(), 'username': self.username_var.get(), 'password': self.password_var.get(), 'admin':self.checkbox_var.get(), 'creation_date':datetime.now()}
                 self.users_collection.insert_one(new_user)
-                self.tree_users.insert("", "end", iid=new_user["_id"], values=[new_user["email"], new_user["username"], len(new_user["password"])*"*", 'Yes' if new_user['admin'] else 'No'])
+                self.tree_users.insert("", "end", iid=new_user["_id"], values=[new_user["email"], new_user["username"], len(new_user["password"])*"*", 'Yes' if new_user['admin'] else 'No', date_to_str(new_user['creation_date'])])
                 self.email_entry.reset_placeholder()
                 self.username_entry.reset_placeholder()
                 self.password_entry.reset_placeholder()
@@ -137,3 +140,19 @@ class UsersPage(tk.Frame):
         values[3] = 'No' if admin else 'Yes'
         self.tree_users.item(self.user_id, values=values)
         self.users_collection.update_one({ "_id": ObjectId(self.user_id)}, { "$set": {"admin": False if admin else True}})
+
+
+#############
+## Testing ##
+#############
+if __name__ == '__main__':
+    import pymongo
+    client = pymongo.MongoClient("mongodb://localhost:27017/")
+    database = client["db_plm"]
+    app = TestApp(database, 20000)
+
+    app.page = UsersPage(app, app.database)
+    
+    app.notebook.add(app.page, text="Users")
+    app.notebook.select(app.page)
+    app.mainloop()

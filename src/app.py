@@ -88,6 +88,12 @@ class App(tk.Tk):
         self.notebook.pack(fill='both', expand=True)
         self.notebook.add(self.product_page, text="Product")
         self.notebook.select(self.product_page)
+    
+    def close_product_page(self):
+        self.notebook.forget(self.product_page)
+        self.notebook.select(self.products_page)
+        self.product_page = None
+        self.products_page.refresh_products()
         
         
 

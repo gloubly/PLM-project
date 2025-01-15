@@ -24,6 +24,7 @@ class SingleProductPage(tk.Frame):
         self.history_collection = database['productsHistory']
         self.product_id = product_id
         self.parent = parent
+        self.change = False
         screen_width = parent.notebook.winfo_screenwidth()
 
         self.content_frame = tk.Frame(self)
@@ -162,6 +163,9 @@ class SingleProductPage(tk.Frame):
 
     def update_product(self):
         assert(isinstance(self.product_id, int)), "product_id should be an integer"
+        if not self.change:
+            self.warn_no_change()
+            return None
         if self.name_entry.get()=='Name' or self.category_entry.get()=="Category" or self.recipe_text.get("1.0", "end").strip()=="" or self.batch_yield_entry.get()=="Batch Yield" or self.unit_entry.get()=="Unit" or self.price_entry.get()=="Price" or len(self.get_ingredients())==0:
             self.error_var.set('Please fill out all the entries')
             return None
@@ -184,15 +188,11 @@ class SingleProductPage(tk.Frame):
         self.products_collection.update_one({"product_id": self.product_id}, {"$set": values}, upsert=True)
         self.error_var.set("")
 
+        self.parent.close_product_page()
+
     def remove_ingredient(self):
         self.tree_ingredients.delete(self.selected_row)
         self.on_change()
-
-    def close(self):
-        self.parent.notebook.forget(self.parent.product_page)
-        self.product_page = None
-        self.parent.notebook.select(self.parent.products_page)
-        self.parent.products_page.refresh_products()
 
     def update_new_version(self, *args):
         version_array = self.version_var.get().split(".")
@@ -237,7 +237,11 @@ class SingleProductPage(tk.Frame):
         return True
 
     def on_change(self, *args):
+        self.changed = True
         self.error_var.set("Warning, you have unsaved changes !")
+    
+    def warn_no_change(self, *args):
+        self.error_var.set("No changes to save")
 
     def toggle_readonly(self, readonly:bool):
         if readonly:
@@ -395,11 +399,15 @@ class SingleProductPage(tk.Frame):
         self.products_collection.update_one({'product_id': self.product_id}, {"$set": values})
         # delete restored version in history
         self.history_collection.delete_one({"fk_product_id": self.product_id,"version": self.version_choice.get()})
-        self.close()
+        self.parent.close_product_page()
     
     def increase_version(self, version:str):
         return str(int(version[0])+1) + version[1:]
 
+
+#############
+## Testing ##
+#############
 if __name__ == '__main__':
     import pymongo
     client = pymongo.MongoClient("mongodb://localhost:27017/")

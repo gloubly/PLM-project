@@ -3,24 +3,28 @@
     "email": "etienne.goury@edu.devinci.fr",
     "username": "gloubly",
     "password": "root",
+    "creation_date": "2024-12-24",
     "admin": true
 },
 {
     "email":"killian.lafaye@edu.devinci.fr",
     "username": "scaylin",
     "password": "scaylin",
+    "creation_date": "2024-12-24",
     "admin": false
 },
 {
     "email": "etienne.goury2@edu.devinci.fr",
     "username": "gloubly2",
     "password": "hey",
+    "creation_date": "2024-12-24",
     "admin": false
 },
 {
-    "email": "NaN",
+    "email": "email",
     "username": "admin",
     "password": "root",
+    "creation_date": "2024-12-24",
     "admin": false
 }
 ]
